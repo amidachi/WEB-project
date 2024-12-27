@@ -1,21 +1,32 @@
-// MovieCard.js
 import React, { useState } from 'react';
 
 function MovieCard({ movie, buttonText, buttonAction }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = () => setIsModalOpen(true);
+  const openModal = (e) => {
+    // Открывать модальное окно только если клик был не на кнопке
+    if (!e.target.closest('button')) {
+      setIsModalOpen(true);
+    }
+  };
+
   const closeModal = () => setIsModalOpen(false);
 
   return (
     <div>
       <div className="movie-card" onClick={openModal}>
         <img
-          src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+          src={https://image.tmdb.org/t/p/w200${movie.poster_path}}
           alt={movie.title}
         />
         <h3>{movie.title}</h3>
-        <button onClick={buttonAction}>{buttonText}</button>
+        {/* Кнопка "Add to Favorites" для добавления в избранное */}
+        <button onClick={(e) => {
+          e.stopPropagation(); // Чтобы не сработало открытие модального окна
+          buttonAction();
+        }}>
+          {buttonText}
+        </button>
       </div>
 
       {/* Модальное окно с подробной информацией о фильме */}
@@ -23,7 +34,7 @@ function MovieCard({ movie, buttonText, buttonAction }) {
         <div className="modal">
           <div className="modal-content">
             <img
-              src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+              src={https://image.tmdb.org/t/p/w200${movie.poster_path}}
               alt={movie.title}
             />
             <div className="info">
